@@ -228,7 +228,6 @@ public interface VerleihService extends ObservableService
      */
     Verleihkarte getVerleihkarteFuer(Medium medium);
 
-    // TODO Schnittstellenkommentare
     /**
      * Gibt den stelle-ten Vormerker eines Mediums zurück.
      * 
