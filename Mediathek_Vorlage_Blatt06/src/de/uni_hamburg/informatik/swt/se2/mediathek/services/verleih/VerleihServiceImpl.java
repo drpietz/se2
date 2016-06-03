@@ -26,6 +26,8 @@ import de.uni_hamburg.informatik.swt.se2.mediathek.services.medienbestand.Medien
 public class VerleihServiceImpl extends AbstractObservableService
         implements VerleihService
 {
+    private static final int MAX_VORMERKER = 3;
+    
     /**
      * Diese Map speichert für jedes eingefügte Medium die dazugehörige
      * Verleihkarte. Ein Zugriff auf die Verleihkarte ist dadurch leicht über
@@ -118,7 +120,7 @@ public class VerleihServiceImpl extends AbstractObservableService
         {
             for (Medium m : medien)
             {
-                if (istVorgemerkt(m) && !getErstenVormerker(m).equals(kunde))
+                if (istVorgemerkt(m) && !getVormerker(m, 0).equals(kunde))
                 {
                     return false;
                 }
@@ -225,24 +227,34 @@ public class VerleihServiceImpl extends AbstractObservableService
         assert istVerleihenMoeglich(kunde,
                 medien) : "Vorbedingung verletzt:  istVerleihenMoeglich(kunde, medien)";
 
-        for (Medium medium : medien)
+        try
         {
-            Verleihkarte verleihkarte = new Verleihkarte(kunde, medium,
-                    ausleihDatum);
-
-            if (istVorgemerkt(medium))
+            for (Medium medium : medien)
             {
-                _vormerkkarten.get(medium)
-                    .poll();
-            }
+                Verleihkarte verleihkarte = new Verleihkarte(kunde, medium,
+                        ausleihDatum);
 
-            _verleihkarten.put(medium, verleihkarte);
-            _protokollierer.protokolliere(
-                    VerleihProtokollierer.EREIGNIS_AUSLEIHE, verleihkarte);
+                if (istVorgemerkt(medium))
+                {
+                    _vormerkkarten.get(medium).poll();
+                }
+
+                _verleihkarten.put(medium, verleihkarte);
+                _protokollierer.protokolliere(
+                        VerleihProtokollierer.EREIGNIS_AUSLEIHE, verleihkarte);
+            }
         }
-        // XXX Was passiert wenn das Protokollieren mitten in der Schleife
+        catch (ProtokollierException e)
+        {
+            throw e;
+        }
+        finally
+        {
+            informiereUeberAenderung();
+        }
+        // XXX Fertig (!)
+        // Was passiert wenn das Protokollieren mitten in der Schleife
         // schief geht? informiereUeberAenderung in einen finally Block?
-        informiereUeberAenderung();
     }
 
     @Override
@@ -346,6 +358,9 @@ public class VerleihServiceImpl extends AbstractObservableService
         Vormerkkarte vormerkkarte = new Vormerkkarte(kunde, medium);
         _vormerkkarten.get(medium)
             .add(vormerkkarte);
+
+        // XXX (!)
+        informiereUeberAenderung();
     }
 
     @Override
@@ -374,12 +389,18 @@ public class VerleihServiceImpl extends AbstractObservableService
 
         if (_vormerkkarten.containsKey(medium))
         {
-            if (_vormerkkarten.get(medium)
-                .contains(kunde)
-                    || _vormerkkarten.get(medium)
-                        .size() >= 3)
+            // Vormerkergrenze erreicht
+            if (_vormerkkarten.get(medium).size() >= MAX_VORMERKER)
             {
                 return false;
+            }
+            
+            // XXX (!)
+            // Kunde hat Medium bereits vorgermerkt
+            for (Vormerkkarte v : _vormerkkarten.get(medium)) {
+                if (v.getVormerker().equals(kunde)) {
+                    return false;
+                }
             }
         }
 
@@ -391,22 +412,7 @@ public class VerleihServiceImpl extends AbstractObservableService
     {
         if (!_vormerkkarten.containsKey(medium)) return false;
 
-        return _vormerkkarten.get(medium)
-            .size() != 0;
-    }
-
-    /**
-     * @require istVorgemerkt(medium) == true
-     */
-    private Kunde getErstenVormerker(Medium medium)
-    {
-        assert istVorgemerkt(
-                medium) == true : "Vorbedingung verletzt: istVorgemerkt(medium) == true";
-
-        /* return _vormerkkarten.get(medium)
-            .peek()
-            .getVormerker(); */
-        return getVormerker(medium, 0);
+        return _vormerkkarten.get(medium).size() != 0;
     }
 
     @Override
