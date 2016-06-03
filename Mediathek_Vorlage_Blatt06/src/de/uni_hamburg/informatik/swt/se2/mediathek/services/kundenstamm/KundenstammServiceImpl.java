@@ -55,7 +55,7 @@ public class KundenstammServiceImpl extends AbstractObservableService
     @Override
     public void fuegeKundenEin(Kunde neuerKunde)
     {
-        assert!enthaeltKunden(
+        assert !enthaeltKunden(
                 neuerKunde) : "Vorbedingung verletzt: !enthaelt(kunden)";
         _kundenstamm.add(neuerKunde);
         informiereUeberAenderung();

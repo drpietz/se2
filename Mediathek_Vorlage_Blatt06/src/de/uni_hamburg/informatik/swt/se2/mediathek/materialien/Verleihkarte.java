@@ -156,7 +156,7 @@ public class Verleihkarte
                     && other.getMedium()
                         .equals(_medium))
 
-            result = true;
+                result = true;
         }
         return result;
     }

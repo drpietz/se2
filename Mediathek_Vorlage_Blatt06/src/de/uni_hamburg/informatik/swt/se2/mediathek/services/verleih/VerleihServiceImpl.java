@@ -27,7 +27,7 @@ public class VerleihServiceImpl extends AbstractObservableService
         implements VerleihService
 {
     private static final int MAX_VORMERKER = 3;
-    
+
     /**
      * Diese Map speichert für jedes eingefügte Medium die dazugehörige
      * Verleihkarte. Ein Zugriff auf die Verleihkarte ist dadurch leicht über
@@ -236,7 +236,8 @@ public class VerleihServiceImpl extends AbstractObservableService
 
                 if (istVorgemerkt(medium))
                 {
-                    _vormerkkarten.get(medium).poll();
+                    _vormerkkarten.get(medium)
+                        .poll();
                 }
 
                 _verleihkarten.put(medium, verleihkarte);
@@ -273,7 +274,7 @@ public class VerleihServiceImpl extends AbstractObservableService
     public boolean medienImBestand(List<Medium> medien)
     {
         assert medien != null : "Vorbedingung verletzt: medien != null";
-        assert!medien.isEmpty() : "Vorbedingung verletzt: !medien.isEmpty()";
+        assert !medien.isEmpty() : "Vorbedingung verletzt: !medien.isEmpty()";
 
         boolean result = true;
         for (Medium medium : medien)
@@ -341,9 +342,11 @@ public class VerleihServiceImpl extends AbstractObservableService
     @Override
     public void vormerken(Kunde kunde, List<Medium> medien)
     {
-        assert istVormerkenMoeglich(kunde, medien) == true : "Vorbedingung verletzt: istVormerkenMoeglich(kunde, medien) == true";
-        
-        for (Medium m : medien) {
+        assert istVormerkenMoeglich(kunde,
+                medien) == true : "Vorbedingung verletzt: istVormerkenMoeglich(kunde, medien) == true";
+
+        for (Medium m : medien)
+        {
             vormerken(kunde, m);
         }
     }
@@ -368,7 +371,7 @@ public class VerleihServiceImpl extends AbstractObservableService
     {
         assert kunde != null : "Vorbedingung verletzt: kunde != null";
         assert medien != null : "Vorbedingung verletzt: medien != null";
-        
+
         for (Medium m : medien)
         {
             if (!istVormerkenMoeglich(kunde, m))
@@ -378,9 +381,10 @@ public class VerleihServiceImpl extends AbstractObservableService
         }
         return true;
     }
-    
+
     private boolean istVormerkenMoeglich(Kunde kunde, Medium medium)
     {
+        // Kunde hat Medium bereits entliehen
         if (istVerliehen(medium) && getVerleihkarteFuer(medium).getEntleiher()
             .equals(kunde))
         {
@@ -390,15 +394,19 @@ public class VerleihServiceImpl extends AbstractObservableService
         if (_vormerkkarten.containsKey(medium))
         {
             // Vormerkergrenze erreicht
-            if (_vormerkkarten.get(medium).size() >= MAX_VORMERKER)
+            if (_vormerkkarten.get(medium)
+                .size() >= MAX_VORMERKER)
             {
                 return false;
             }
-            
+
             // XXX (!)
             // Kunde hat Medium bereits vorgermerkt
-            for (Vormerkkarte v : _vormerkkarten.get(medium)) {
-                if (v.getVormerker().equals(kunde)) {
+            for (Vormerkkarte v : _vormerkkarten.get(medium))
+            {
+                if (v.getVormerker()
+                    .equals(kunde))
+                {
                     return false;
                 }
             }
@@ -406,23 +414,30 @@ public class VerleihServiceImpl extends AbstractObservableService
 
         return true;
     }
-    
 
     private boolean istVorgemerkt(Medium medium)
     {
         if (!_vormerkkarten.containsKey(medium)) return false;
 
-        return _vormerkkarten.get(medium).size() != 0;
+        return _vormerkkarten.get(medium)
+            .size() != 0;
     }
 
     @Override
     public Kunde getVormerker(Medium medium, int stelle)
     {
         assert medium != null : "Vorbedingung verletzt: medium != null";
-        
-        if (_vormerkkarten.containsKey(medium) && stelle >= 0 && stelle < _vormerkkarten.get(medium).size()) {
-            return _vormerkkarten.get(medium).get(stelle).getVormerker();
-        } else {
+
+        if (_vormerkkarten.containsKey(medium) && stelle >= 0
+                && stelle < _vormerkkarten.get(medium)
+                    .size())
+        {
+            return _vormerkkarten.get(medium)
+                .get(stelle)
+                .getVormerker();
+        }
+        else
+        {
             return null;
         }
     }
