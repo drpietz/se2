@@ -230,10 +230,10 @@ public interface VerleihService extends ObservableService
 
     // TODO Schnittstellenkommentare
     /**
-     * Gibt den stelle-ten Vormerker eines Mediums zurück.
+     * Gibt den stelle-ten Vormerker zurück.
      * 
-     * @param medium    Ein Medium
-     * @param stelle    Stelle, die abgefragt wird
+     * @param medium    
+     * @param stelle    Stelle, die abgefragt wird (0-2)
      * @return          Vormerker an Stelle stelle
      * 					null, wenn nicht vorhanden
      * 
@@ -254,8 +254,8 @@ public interface VerleihService extends ObservableService
     /**
      * Überprüft, ob alle Medien einer Liste von einem bestimmten Kunden vorgemerkt werden können
      * 
-     * @param kunde     Kunde, der die Medien vormerken will
-     * @param medien    Medien, die vorgemerkt werden sollen
+     * @param kunde
+     * @param medien
      * 
      * @require kunde != null
      * @require medien != null
