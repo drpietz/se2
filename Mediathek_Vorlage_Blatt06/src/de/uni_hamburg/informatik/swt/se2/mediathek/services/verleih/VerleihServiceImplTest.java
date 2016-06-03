@@ -150,4 +150,74 @@ public class VerleihServiceImplTest
         assertFalse(ereignisse[0]);
     }
 
+    @Test
+    public void testVormerkenReihenfolge()
+    {
+        List<Medium> vormerkMedien = new ArrayList<>();
+        Medium md0 = _medienListe.get(0), md1 = _medienListe.get(1);
+        vormerkMedien.add(md0);
+
+        assertEquals(_service.getVormerker(md0, 0), null);
+        assertEquals(_service.getVormerker(md0, 1), null);
+        assertEquals(_service.getVormerker(md1, 0), null);
+
+        _service.vormerken(_vormerkkunde, vormerkMedien);
+        assertEquals(_service.getVormerker(md0, 0), _vormerkkunde);
+        assertEquals(_service.getVormerker(md0, 1), null);
+        assertEquals(_service.getVormerker(md1, 0), null);
+
+        vormerkMedien.add(md1);
+        _service.vormerken(_kunde, vormerkMedien);
+        assertEquals(_service.getVormerker(md0, 0), _vormerkkunde);
+        assertEquals(_service.getVormerker(md0, 1), _kunde);
+        assertEquals(_service.getVormerker(md1, 0), _kunde);
+    }
+
+    @Test
+    public void testVormerkenNachruecken() throws ProtokollierException
+    {
+        List<Medium> vormerkMedien = new ArrayList<>();
+        Medium md0 = _medienListe.get(0);
+        vormerkMedien.add(md0);
+
+        _service.vormerken(_kunde, vormerkMedien);
+        _service.vormerken(_vormerkkunde, vormerkMedien);
+        assertEquals(_service.getVormerker(md0, 0), _kunde);
+        assertEquals(_service.getVormerker(md0, 1), _vormerkkunde);
+
+        _service.verleiheAn(_kunde, vormerkMedien, _datum);
+        assertEquals(_service.getVormerker(md0, 0), _vormerkkunde);
+        assertEquals(_service.getVormerker(md0, 1), null);
+
+        _service.nimmZurueck(vormerkMedien, _datum);
+        _service.verleiheAn(_vormerkkunde, vormerkMedien, _datum);
+        assertEquals(_service.getVormerker(md0, 0), null);
+        assertEquals(_service.getVormerker(md0, 1), null);
+    }
+
+    @Test
+    public void testVormerkenBlockiert()
+    {
+        List<Medium> vormerkMedien = new ArrayList<>();
+        Medium md0 = _medienListe.get(0);
+        vormerkMedien.add(md0);
+
+        _service.vormerken(_vormerkkunde, vormerkMedien);
+
+        assertTrue(_service.istVerleihenMoeglich(_vormerkkunde, vormerkMedien));
+        assertFalse(_service.istVerleihenMoeglich(_kunde, vormerkMedien));
+    }
+
+    @Test
+    public void testEntliehenesMediumVormerken() throws ProtokollierException
+    {
+        List<Medium> vormerkMedien = new ArrayList<>();
+        Medium md0 = _medienListe.get(0);
+        vormerkMedien.add(md0);
+
+        _service.verleiheAn(_kunde, vormerkMedien, _datum);
+        assertTrue(_service.istVormerkenMoeglich(_vormerkkunde, vormerkMedien));
+        assertFalse(_service.istVormerkenMoeglich(_kunde, vormerkMedien));
+    }
+
 }
