@@ -21,6 +21,7 @@ import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.vorstellungsauswaehler.V
  * @author SE2-Team
  * @version SoSe 2016
  */
+// public class KassenWerkzeug implements Observer
 public class KassenWerkzeug implements Beobachter
 {
     // Das Material dieses Werkzeugs
@@ -55,6 +56,10 @@ public class KassenWerkzeug implements Beobachter
         // Als Beobachter registrieren
         _datumAuswaehlWerkzeug.registriereBeobachter(this);
         _vorstellungAuswaehlWerkzeug.registriereBeobachter(this);
+        /*
+         * _datumAuswaehlWerkzeug.registriereBeobachter(this);
+         * _vorstellungAuswaehlWerkzeug.registriereBeobachter(this);
+         */
 
         // UI erstellen (mit eingebetteten UIs der direkten Subwerkzeuge)
         _ui = new KassenWerkzeugUI(_platzVerkaufsWerkzeug.getUIPanel(),
@@ -139,4 +144,19 @@ public class KassenWerkzeug implements Beobachter
             setzeAusgewaehlteVorstellung();
         }
     }
+    
+    /*
+     * @Override
+     * public void update(Observable o, Object arg)
+     * {
+     *     if (o == _datumAuswaehlWerkzeug)
+     *     {
+     *         setzeTagesplanFuerAusgewaehltesDatum();
+     *     }
+     *     else if (o == _vorstellungAuswaehlWerkzeug)
+     *     {
+     *         setzeAusgewaehlteVorstellung();
+     *     }
+     * }
+     */
 }

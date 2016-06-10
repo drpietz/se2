@@ -17,6 +17,7 @@ import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.beobachtermuster.Beobach
  * @author SE2-Team
  * @version SoSe 2016
  */
+// public class DatumAuswaehlWerkzeug extends Observable
 public class DatumAuswaehlWerkzeug extends Beobachtbar
 {
     private DatumAuswaehlWerkzeugUI _ui;
@@ -44,6 +45,7 @@ public class DatumAuswaehlWerkzeug extends Beobachtbar
                 .setText(_ausgewaehltesDatum.getFormatiertenString());
         
         informiereUeberAenderung();
+        // notifyObservers();
     }
 
     /**
@@ -56,6 +58,7 @@ public class DatumAuswaehlWerkzeug extends Beobachtbar
                 .setText(_ausgewaehltesDatum.getFormatiertenString());
         
         informiereUeberAenderung();
+        // notifyObservers();
     }
 
     /**
@@ -103,4 +106,11 @@ public class DatumAuswaehlWerkzeug extends Beobachtbar
             }
         });
     }
+    
+    /*
+     * public void registriereBeobachter(Observer o)
+     * {
+     *     addObserver(o);
+     * }
+     */
 }

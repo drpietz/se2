@@ -17,6 +17,7 @@ import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.beobachtermuster.Beobach
  * Dieses Werkzeug ist ein eingebettetes Subwerkzeug. Es benachrichtigt seine
  * Beobachter, wenn sich die ausgewählte Vorstellung geändert hat.
  */
+// public class VorstellungsAuswaehlWerkzeug extends Observable
 public class VorstellungsAuswaehlWerkzeug extends Beobachtbar
 {
     private VorstellungsAuswaehlWerkzeugUI _ui;
@@ -39,6 +40,7 @@ public class VorstellungsAuswaehlWerkzeug extends Beobachtbar
     private void vorstellungWurdeAusgewaehlt()
     {
         informiereUeberAenderung();
+        // notifyObservers();
     }
 
     /**
@@ -119,4 +121,11 @@ public class VorstellungsAuswaehlWerkzeug extends Beobachtbar
                     }
                 });
     }
+    
+    /*
+     * public void registriereBeobachter(Observer o)
+     * {
+     *     addObserver(o);
+     * }
+     */
 }
