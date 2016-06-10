@@ -22,9 +22,13 @@ public abstract class Beobachtbar
      * Fügt einen zu benachrichtigenden Beobachter hinzu
      * 
      * @param beobachter    Neuer Beobachter dieser Klasse
+     * 
+     * @require beobachter != null
      */
     public void registriereBeobachter(Beobachter beobachter)
     {
+        assert beobachter != null : "Vorbedingung verletzt: beobachter != null";
+        
         _beobachter.add(beobachter);
     }
 
