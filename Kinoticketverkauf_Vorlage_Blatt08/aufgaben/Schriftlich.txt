@@ -1,0 +1,26 @@
+3.
+	Ein Werkzeug besteht aus einer UI-Klasse und der Werkzeugklasse, 
+	die zwischen UI und den fachlichen Klassen vermittelt.
+
+5.
+	- Ausgewählte Vorstellung
+
+6.
+	- Das BahrbezahlWerkzeug (mit UI) wird angezeigt
+	- Der summierte Betrag wird angezeigt
+	- Gegebener Betrag wird vom Benutzer / Kassierer eingegeben
+	- Restbetrag wird berechnet und angezeigt
+	- Ok Button wird ausgegraut gdw. Restbetrag < 0
+	- "Abbrechen geklickt"
+	   - Die Sitzplätze werden nicht gebucht.
+	   - Die Markierung der Ausgewählten Sitzplätze wird entfernt.
+	   - Das Pop-Up Fenster wird geschlossen.
+	- "OK"
+	   - Die Sitzplätze werden gebucht (Die Sitzplätze können bei folgenden Buchungen nicht mehr ausgewählt werden).
+	   - Das Pop-Up Fenster wird geschlossen.
+	   
+7.	- Nein, es soll nicht möglich sein während des Barzahlungsvorgangs 
+      weiterhin mit der restlichen Benutzerschnittstellen zu Interagieren
+      
+      Konsequenz: Man könnte ansonsten ein zweites BarbezahlWerkzeug für die gleichen Plätze erstellen, da diese
+      bevor man bei dem ersten auf OK geklickt hat
