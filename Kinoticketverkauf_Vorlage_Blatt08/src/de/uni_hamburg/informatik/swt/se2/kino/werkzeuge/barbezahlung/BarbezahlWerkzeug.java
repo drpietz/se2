@@ -5,11 +5,19 @@ import java.util.regex.Pattern;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+/**
+ * Die Klasse BarbezahlWerkzeug zur Unterstüzung von Barzahlungen
+ */
 public class BarbezahlWerkzeug
 {
 
     private boolean result = false;
     
+    /**
+     * Initialisiert ein neues BarbezahlWerkzeug zur Abrechnung eines bestimmten Betrags
+     * GUI wird sofort geöffnet und blockiert bis geschlossen wurde
+     * @param eurocent Zu bezahlender Betrag in Eurocent
+     */
     public BarbezahlWerkzeug(int eurocent) {
         BarbezahlWerkzeugUI ui = new BarbezahlWerkzeugUI();
         
@@ -81,6 +89,10 @@ public class BarbezahlWerkzeug
         return centBetrag;
     }
     
+    /**
+     * Gibt zurück, ob die Zahlung erfolgreich war
+     * @return true genau dann wenn die Zahlung erfolgreich war
+     */
     public boolean warErfolgreich() {
         return result;
     }

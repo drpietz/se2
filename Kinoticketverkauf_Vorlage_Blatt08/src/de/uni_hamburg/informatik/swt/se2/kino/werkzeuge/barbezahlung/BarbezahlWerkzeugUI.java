@@ -21,6 +21,9 @@ public class BarbezahlWerkzeugUI
     private JButton _abbrechenButton;
     private JButton _bestaetigenButton;
 
+    /**
+     * Initialisiert die zum BarbezahlWerkzeug zugehörige UI
+     */
     public BarbezahlWerkzeugUI()
     {
         _dialog = new JDialog();
@@ -73,31 +76,49 @@ public class BarbezahlWerkzeugUI
         _dialog.pack();
     }
 
+    /**
+     * @return Label, in dem der zu zahlende Betrag steht
+     */
     public JLabel getBetragsLabel()
     {
         return _betragsLabel;
     }
 
+    /**
+     * @return TextField, in das der bezahlte Betrag eingegeben wird
+     */
     public JTextField getGegebenTextField()
     {
         return _gegebenTextField;
     }
 
+    /**
+     * @return Label, das den noch zu zahlenden Betrag angibt
+     */
     public JLabel getRestbetragsLabel()
     {
         return _restbetragsLabel;
     }
 
+    /**
+     * @return Button zum Abbrechen des Bezahlvorgangs
+     */
     public JButton getAbbrechenButton()
     {
         return _abbrechenButton;
     }
 
+    /**
+     * @return Button der Gedrückt wird, wenn die Zahlung erfolgreich war
+     */
     public JButton getBestaetigenButton()
     {
         return _bestaetigenButton;
     }
 
+    /**
+     * @return Der Dialog der die UI umfasst
+     */
     public JDialog getDialog()
     {
         return _dialog;
