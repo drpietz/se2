@@ -10,12 +10,12 @@ import org.junit.Test;
 public class BeobachtermusterTest extends Beobachtbar implements Beobachter
 {
 
-    List<Beobachtbar> benachrichtigungen;
+    int benachrichtigungen;
     Beobachtbar b1, b2;
 
     public BeobachtermusterTest()
     {
-        benachrichtigungen = new ArrayList<>();
+        benachrichtigungen = 0;
         
         b1 = new BeobachtermusterTestImpl(this);
         b2 = new BeobachtermusterTestImpl(this);
@@ -27,13 +27,13 @@ public class BeobachtermusterTest extends Beobachtbar implements Beobachter
     @Test
     public void testeMehrereBenachrichtigungen() {
         informiereUeberAenderung();
-        assertEquals(benachrichtigungen.size(), 2);
+        assertEquals(benachrichtigungen, 2);
     }
 
     @Override
     public void reagiereAufAenderung(Beobachtbar beobachtbar)
     {
-        benachrichtigungen.add(beobachtbar);
+        benachrichtigungen++;
     }
 
     private class BeobachtermusterTestImpl extends Beobachtbar implements Beobachter
