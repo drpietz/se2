@@ -27,6 +27,8 @@ public class BarbezahlWerkzeugUI
         _dialog.setTitle("Barbezahlung");
         _dialog.setLayout(new BorderLayout());
 
+        
+        
         // ----- CONTENT -----
         JPanel content = new JPanel();
         content.setLayout(new GridLayout(3, 2));
@@ -50,6 +52,8 @@ public class BarbezahlWerkzeugUI
 
         _dialog.add(content, BorderLayout.CENTER);
 
+        
+        
         // ----- BUTTONS -----
         JPanel buttonPanel = new JPanel(new FlowLayout());
 
@@ -62,6 +66,8 @@ public class BarbezahlWerkzeugUI
 
         _dialog.add(buttonPanel, BorderLayout.SOUTH);
 
+        
+        
         // ----- DIALOG 2 -----
         _dialog.setModal(true);
         _dialog.pack();
@@ -86,12 +92,12 @@ public class BarbezahlWerkzeugUI
     {
         return _abbrechenButton;
     }
-    
+
     public JButton getBestaetigenButton()
     {
         return _bestaetigenButton;
     }
-    
+
     public JDialog getDialog()
     {
         return _dialog;
