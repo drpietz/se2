@@ -98,10 +98,16 @@ public class PlatzVerkaufsWerkzeug
         
         BarbezahlWerkzeug bezahlung = new BarbezahlWerkzeug(preis);
         
-        if (bezahlung.warErfolgreich())
+        if (bezahlung.berechne())
             verkaufePlaetze(_vorstellung);
         else
-            _ui.getPlatzplan().entferneAuswahl();
+            entferneAuswahl();
+    }
+        
+    private void entferneAuswahl()
+    {
+        _ui.getPlatzplan().entferneAuswahl();
+        reagiereAufNeuePlatzAuswahl(_ui.getPlatzplan().getAusgewaehltePlaetze());
     }
 
     /**

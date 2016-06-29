@@ -11,40 +11,40 @@ import javax.swing.event.DocumentListener;
 public class BarbezahlWerkzeug
 {
 
+	private BarbezahlWerkzeugUI _ui;
     private boolean result = false;
     
     /**
      * Initialisiert ein neues BarbezahlWerkzeug zur Abrechnung eines bestimmten Betrags
-     * GUI wird sofort geöffnet und blockiert bis geschlossen wurde
      * @param eurocent Zu bezahlender Betrag in Eurocent
      */
     public BarbezahlWerkzeug(int eurocent) {
-        BarbezahlWerkzeugUI ui = new BarbezahlWerkzeugUI();
+        _ui = new BarbezahlWerkzeugUI();
         
         // Zu zahlenden Betrag anzeigen
-        ui.getBetragsLabel().setText(formatiereBetrag(eurocent));
-        ui.getRestbetragsLabel().setText(formatiereBetrag(eurocent));
+        setzeRestbetragLabel(eurocent);
+        setzeBetragLabel(eurocent);
         
         // Aktion bei Abbrechen Knopf: Dialog schließen
-        ui.getAbbrechenButton().addActionListener(e -> ui.getDialog().dispose());
+        _ui.getAbbrechenButton().addActionListener(e -> _ui.getDialog().dispose());
         
         // Aktion bei Bestätigen Knopf: Zustand auf erfolgreich setzen und Dialog schließen
-        ui.getBestaetigenButton().addActionListener(e -> {
+        _ui.getBestaetigenButton().addActionListener(e -> {
             result = true;
-            ui.getDialog().dispose();
+            _ui.getDialog().dispose();
         });
         
         // Aktion wenn Betrag eingegeben wurde
-        ui.getGegebenTextField().getDocument().addDocumentListener(new DocumentListener()
+        _ui.getGegebenTextField().getDocument().addDocumentListener(new DocumentListener()
         {
             private void aktualisiereAnzeige()
             {
                 boolean bezahlt = false;
                 
                 try {
-                    int eingegeben = parseBetrag(ui.getGegebenTextField().getText());
+                    int eingegeben = parseBetrag(_ui.getGegebenTextField().getText());
                     int restbetrag = eurocent - eingegeben;
-                    ui.getRestbetragsLabel().setText(formatiereBetrag(restbetrag));
+                    setzeRestbetragLabel(restbetrag);
                     
                     if (restbetrag > 0)
                         bezahlt = false;
@@ -53,7 +53,7 @@ public class BarbezahlWerkzeug
                 } catch (NumberFormatException err) {
                     bezahlt = false;
                 } finally {
-                    ui.getBestaetigenButton().setEnabled(bezahlt);
+                    _ui.getBestaetigenButton().setEnabled(bezahlt);
                 }
             }
             
@@ -66,8 +66,14 @@ public class BarbezahlWerkzeug
             @Override
             public void changedUpdate(DocumentEvent e) { aktualisiereAnzeige(); }
         });
-        
-        ui.getDialog().setVisible(true);
+    }
+    
+    private void setzeRestbetragLabel(int eurocent) {
+    	_ui.getRestbetragsLabel().setText(formatiereBetrag(eurocent));
+    }
+    
+    private void setzeBetragLabel(int eurocent) {
+    	_ui.getBetragsLabel().setText(formatiereBetrag(eurocent));
     }
     
     private String formatiereBetrag(int eurocent) {
@@ -90,10 +96,12 @@ public class BarbezahlWerkzeug
     }
     
     /**
-     * Gibt zurück, ob die Zahlung erfolgreich war
+     * Führt den Bezahlvorgang aus
      * @return true genau dann wenn die Zahlung erfolgreich war
      */
-    public boolean warErfolgreich() {
+    public boolean berechne() {
+        _ui.getDialog().setVisible(true);
+        
         return result;
     }
     
