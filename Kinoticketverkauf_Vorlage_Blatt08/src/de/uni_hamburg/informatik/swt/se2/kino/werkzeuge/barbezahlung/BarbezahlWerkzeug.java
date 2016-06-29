@@ -39,22 +39,32 @@ public class BarbezahlWerkzeug
         {
             private void aktualisiereAnzeige()
             {
+                String eingegeben = _ui.getGegebenTextField().getText();
                 boolean bezahlt = false;
                 
-                try {
-                    int eingegeben = parseBetrag(_ui.getGegebenTextField().getText());
-                    int restbetrag = eurocent - eingegeben;
-                    setzeRestbetragLabel(restbetrag);
+                int gegeben;
+                if (istGueltigerBetrag(eingegeben))
+                {
+                    gegeben = parseBetrag(eingegeben);
+                    int restbetrag = eurocent - gegeben;
                     
                     if (restbetrag > 0)
+                    {
                         bezahlt = false;
+                    }
                     else
+                    {
                         bezahlt = true;
-                } catch (NumberFormatException err) {
-                    bezahlt = false;
-                } finally {
-                    _ui.getBestaetigenButton().setEnabled(bezahlt);
+                    }
+                    
+                    setzeRestbetragLabel(restbetrag);
                 }
+                else if (eingegeben.isEmpty())
+                {
+                    setzeRestbetragLabel(eurocent);
+                }
+                
+                _ui.getBestaetigenButton().setEnabled(bezahlt);
             }
             
             @Override
@@ -80,14 +90,18 @@ public class BarbezahlWerkzeug
         return String.format("%.02f €", eurocent / 100d);
     }
     
-    private int parseBetrag(String betrag) throws NumberFormatException {
-        if (betrag.isEmpty())
-            return 0;
+    private boolean istGueltigerBetrag(String betrag)
+    {
+        return Pattern.matches("^\\d{1,5}(?:(?:,|\\.)\\d{1,2})?$", betrag);
+    }
+    
+    /**
+     * @require istGueltigerBetrag(betrag)
+     */
+    private int parseBetrag(String betrag) {
+        assert istGueltigerBetrag(betrag) : "Vorbedingung verletzt: istGueltigerBetrag(betrag)";
         
         betrag = betrag.replace(',', '.');
-        
-        if (Pattern.compile("\\.\\d{3}").matcher(betrag).find())
-            throw new NumberFormatException("Mehr als 2 Nachkommastellen");
         
         double doubleBetrag = Double.parseDouble(betrag);
         int centBetrag = (int) Math.round(doubleBetrag * 100);

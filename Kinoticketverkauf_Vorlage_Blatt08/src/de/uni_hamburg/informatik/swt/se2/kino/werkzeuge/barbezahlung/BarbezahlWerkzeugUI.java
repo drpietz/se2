@@ -43,11 +43,11 @@ public class BarbezahlWerkzeugUI
 
         _gegebenTextField = new JTextField();
         _gegebenTextField.setColumns(10);
-        JPanel gegebenJPanel = new JPanel(new FlowLayout());
-        gegebenJPanel.add(_gegebenTextField);
-        gegebenJPanel.add(new JLabel("€"));
+        JPanel gegebenPanel = new JPanel(new FlowLayout());
+        gegebenPanel.add(_gegebenTextField);
+        gegebenPanel.add(new JLabel("€"));
         content.add(new JLabel("Gegeben:"));
-        content.add(gegebenJPanel);
+        content.add(gegebenPanel);
 
         _restbetragsLabel = new JLabel();
         content.add(new JLabel("Restbetrag:"));
