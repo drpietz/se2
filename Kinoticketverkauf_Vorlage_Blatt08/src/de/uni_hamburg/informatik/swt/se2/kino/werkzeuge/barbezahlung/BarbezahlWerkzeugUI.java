@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-public class BarbezahlWerkzeugUI
+class BarbezahlWerkzeugUI
 {
 
     private JDialog _dialog;
@@ -73,7 +73,9 @@ public class BarbezahlWerkzeugUI
         
         // ----- DIALOG 2 -----
         _dialog.setModal(true);
+        _dialog.setResizable(false);
         _dialog.pack();
+        _dialog.setLocationRelativeTo(null);
     }
 
     /**

@@ -91,8 +91,6 @@ public class PlatzVerkaufsWerkzeug
      */
     private void fuehreBarzahlungDurch()
     {
-        // XXX
-        
         Set<Platz> ausgewaehltePlaetze = _ui.getPlatzplan().getAusgewaehltePlaetze();
         int preis = _vorstellung.getPreisFuerPlaetze(ausgewaehltePlaetze);
         
