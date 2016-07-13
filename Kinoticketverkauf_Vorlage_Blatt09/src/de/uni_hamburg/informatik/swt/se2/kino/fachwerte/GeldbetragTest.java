@@ -29,18 +29,6 @@ public class GeldbetragTest
         assertEquals(Geldbetrag.valueOf("-7.12").toEurocent(), -712);
     }
 
-    @Test(expected=NumberFormatException.class)
-    public void testParseFromStringErrorA()
-    {
-        Geldbetrag.valueOf("123a15");
-    }
-
-    @Test(expected=NumberFormatException.class)
-    public void testParseFromStringErrorB()
-    {
-        Geldbetrag.valueOf("123,159");
-    }
-
     @Test
     public void testAdd()
     {
@@ -60,7 +48,7 @@ public class GeldbetragTest
     {
         assertEquals(gn15.multiply(10).toEurocent(), -150);
         assertEquals(g100.multiply(5).toEurocent(), 500);
-        assertEquals(g3500.multiply(2).toEurocent(), 7000);
+        assertEquals(g3500.multiply(0).toEurocent(), 0);
     }
 
     @Test
@@ -76,6 +64,8 @@ public class GeldbetragTest
         Geldbetrag d50 = g100.subtract(g50);
         assertEquals(d50, g50);
         assertEquals(d50.hashCode(), d50.hashCode());
+        
+       assertNotEquals(gn15, g50);
     }
     
     
